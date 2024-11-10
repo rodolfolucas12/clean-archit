@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 
+	"github.com/rodolfolucas12/clean-archit/internal/domain"
 	"github.com/rodolfolucas12/clean-archit/internal/entity"
 	"github.com/rodolfolucas12/clean-archit/internal/usecase"
 	"github.com/rodolfolucas12/clean-archit/pkg/events"
@@ -28,7 +29,7 @@ func NewWebOrderHandler(
 }
 
 func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
-	var dto usecase.OrderInputDTO
+	var dto domain.OrderInputDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -42,6 +43,21 @@ func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = json.NewEncoder(w).Encode(output)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (h *WebOrderHandler) ListOrders(w http.ResponseWriter, r *http.Request) {
+
+	listOrders := usecase.NewListOrdersUseCase(h.OrderRepository)
+	orders, err := listOrders.Execute()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	err = json.NewEncoder(w).Encode(orders)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
