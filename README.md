@@ -19,24 +19,23 @@ git clone https://github.com/rodolfolucas12/clean-archit.git
 
 3. Run the docker-compose:
 ```bash
-docker-compose up -d
+docker-compose up
 ```
 
-4. Run the application:
-```bash
-cd cmd/ordersystem
-go run main.go
-```
+Obs: After running the docker-compose, the services will be available on the following ports:
+- HTTP: 8000
+- gRPC: 50051
+- GraphQL: 8080
 
 ## How to local test
 
-1. HTTP on port :8000
+1. HTTP:
 - Create order:
 execute file `api/create_order.http`
 - List all orders:
 execute file `api/list_orders.http`
 
-2. gRPC on port :50051
+2. gRPC:
 - Run the commands:
 ```bash
 `evans -r repl -p 50051`
@@ -52,7 +51,7 @@ execute file `api/list_orders.http`
 `call ListOrders`
 ```
 
-3. GraphQL on port :8080
+3. GraphQL:
 Open the browser and access the URL `http://localhost:8080/` and execute the queries:
 
 - Create order:
