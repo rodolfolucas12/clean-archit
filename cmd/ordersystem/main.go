@@ -33,7 +33,7 @@ func main() {
 		panic(err)
 	}
 
-	db, err := sql.Open(configs.DBDriver, fmt.Sprintf("%s:%s@tcp(mysql:%s)/%s", configs.DBUser, configs.DBPassword, configs.DBPort, configs.DBName))
+	db, err := sql.Open(configs.DBDriver, fmt.Sprintf("%s:%s@tcp(%s:%s)/%s", configs.DBUser, configs.DBPassword, configs.DBHost, configs.DBPort, configs.DBName))
 	if err != nil {
 		panic(err)
 	}
