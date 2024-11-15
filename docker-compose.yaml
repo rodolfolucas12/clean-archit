@@ -24,3 +24,21 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
+
+  app:
+    image: golang:1.22.7
+    container_name: app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: ["go", "run", "main.go"]
+    volumes:
+      - .:/app
+    working_dir: /app/cmd/ordersystem
+    ports:
+      - 8080:8080
+      - 8000:8000
+      - 50051:50051
+    depends_on:
+      - mysql
+      - rabbitmq
